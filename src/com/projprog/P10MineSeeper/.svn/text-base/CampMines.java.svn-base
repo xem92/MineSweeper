@@ -1,0 +1,228 @@
+package com.projprog.P10MineSeeper;
+
+import java.util.Random;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+
+public class CampMines extends Activity implements OnClickListener, OnLongClickListener{
+
+	
+	private int [][] field;			//matriz lo que es cada boton(mina = -1)
+	private boolean [][]check;
+	private MainButton [][] buttons;
+	private int compteEnrere;
+	
+	public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        int mines;
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        setContentView(R.layout.mines);
+        
+        
+        Bundle datos = this.getIntent().getExtras();
+        mines = datos.getInt("mines");
+        buttons = new MainButton[mines][mines];
+        this.crearCamp();
+        
+        LinearLayout vl = (LinearLayout)findViewById(R.id.linearLayout4);
+        
+        for(int i=0; i<mines; i++){
+        	LinearLayout hl = new LinearLayout(this);
+        	for(int j=0; j<mines; j++){
+        		
+        		MainButton b = new MainButton(this);
+        		buttons[i][j] = b;
+        		b.setPosX(i);
+        		b.setPosY(j);
+        		b.setOnClickListener(this);
+        		b.setOnLongClickListener(this);
+        		hl.addView(b);
+        	}
+        	vl.addView(hl);
+        }
+        
+    }
+	
+	
+
+	public void crearCamp(){
+		
+		int mines, nivell;
+		int fila, columna;
+		int camps;
+		Random generator = new Random();
+		Bundle datos = this.getIntent().getExtras();
+		
+		
+		camps = datos.getInt("mines");
+		compteEnrere = camps*camps;
+		field = new int[camps][camps];
+		check = new boolean[camps][camps];
+		
+		for(fila=0; fila<camps; fila++){
+			for(columna=0; columna<camps; columna++){
+				field[fila][columna] = 0;
+				check[fila][columna] = false;
+			}
+		}
+		
+		
+		nivell = datos.getInt("nivell");
+		mines = (int)(nivell*10*camps*camps)/100;
+		String asd = new String();
+		asd = ""+mines;
+		Log.v("Mines", asd);
+		
+		for(int i=0;i<mines;i++){
+			int posX = generator.nextInt(camps);
+			int posY = generator.nextInt(camps);
+			field[posX][posY] = -1;
+		}
+
+		for(fila=0; fila<camps; fila++){
+			for(columna=0; columna<camps; columna++){
+				if(field[fila][columna]!=-1){
+					field[fila][columna]=omplirTaulell(fila,columna,camps);
+				}
+			}
+		}
+		
+	}
+
+
+
+	private int omplirTaulell(int m, int n,int camps) {
+		
+		int min = 0;
+		if(existeix(m-1,n-1,camps))	min++;
+		if(existeix(m,n-1,camps))	min++;
+		if(existeix(m+1,n-1,camps))	min++;
+		if(existeix(m-1,n,camps))	min++;
+		if(existeix(m+1,n,camps))	min++;
+		if(existeix(m-1,n+1,camps))	min++;
+		if(existeix(m,n+1,camps))	min++;
+		if(existeix(m+1,n+1,camps))	min++;
+		return min;
+	}
+	
+
+
+
+	private boolean existeix(int m, int n,int camps) {
+		if(m<0||n<0||m>=camps||n>=camps) return false;
+		else{
+			if(field[m][n]==-1){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	public void onClick(View v) {
+		
+		
+		MainButton b = (MainButton) v;
+		int posX = b.getPosX();
+		int posY = b.getPosY();
+		dig(posX, posY);
+	}
+
+
+
+	private void dig(int m, int n) {
+		
+		Bundle datos = this.getIntent().getExtras();
+		int camps = datos.getInt("mines");
+		
+		Log.v("asd","x: "+m+" y: "+n);
+		switch(field[m][n]){
+			case 0:	buttons[m][n].setEnabled(false);
+					compteEnrere--;
+					if(compteEnrere == 0){
+						Intent intent = new Intent(CampMines.this, gameWin.class);
+		           		startActivity(intent);
+						finish();
+					}else{
+						if(m-1>=0 && n-1>=0)	
+							if(field[m-1][n-1]!=-1 && buttons[m-1][n-1].isEnabled())
+								dig(m-1,n-1);
+						if(n-1>=0)
+							if(field[m][n-1]!=-1 && buttons[m][n-1].isEnabled())
+								dig(m,n-1);
+						if(m+1<camps && n-1>=0)
+							if(field[m+1][n-1]!=-1 && buttons[m+1][n-1].isEnabled())
+								dig(m+1,n-1);
+						if(m-1>=0)
+							if(field[m-1][n]!=-1 && buttons[m-1][n].isEnabled())
+								dig(m-1,n);
+						if(m+1<camps)
+							if(field[m+1][n]!=-1 && buttons[m+1][n].isEnabled())
+								dig(m+1,n);
+						if(m-1>=0 && n+1<camps)
+							if(field[m-1][n+1]!=-1 && buttons[m-1][n+1].isEnabled())
+								dig(m-1,n+1);
+						if(n+1<camps)
+							if(field[m][n+1]!=-1 && buttons[m][n+1].isEnabled())
+								dig(m,n+1);
+						if(m+1<camps && n+1<camps)
+							if(field[m+1][n+1]!=-1 && buttons[m+1][n+1].isEnabled())
+								dig(m+1,n+1);
+					}
+					break;
+			case -1:
+					Intent intentII = new Intent(CampMines.this, gameOver.class);
+       			startActivity(intentII);
+       				finish();
+       				break;
+       		default:compteEnrere--;
+       				if(compteEnrere == 0){
+       					Intent intent = new Intent(CampMines.this, gameWin.class);
+       	           		startActivity(intent);
+       					finish();
+       				}else{
+       					buttons[m][n].setEnabled(false);
+       					buttons[m][n].setText(""+field[m][n]);
+       				}
+       				break;
+		}
+	}
+
+
+
+	public boolean onLongClick(View v) {
+
+		MainButton b = (MainButton) v;
+		if((String)b.getText()!="F"){
+			compteEnrere--;
+			int x = b.getPosX();
+			int y = b.getPosY();
+			b.setFlag();
+			if(field[x][y] == -1 && compteEnrere == 0){
+				Intent intent = new Intent(CampMines.this, gameWin.class);
+           		startActivity(intent);
+				finish();
+			}
+		}else{
+			compteEnrere++;
+			b.removeFlag();
+		}
+		
+		return true;
+	}
+}

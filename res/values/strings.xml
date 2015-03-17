@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, P10MineSweeperActivity!</string>
+    <string name="app_name">P10-MineSweeper</string>
+    <string name="Jugar">Jugar</string>
+    <string name="off">Off</string>
+    <string name="prova">Prueva, funciona</string>
+    <string name="levels">LEVELS</string>
+    <string name="level1">LEVEL 1</string>
+    <string name="level">NOOB</string>
+    <string name="nivel1">NOOB</string>
+    <string name="nivel2">MEDIUM</string>
+    <string name="nivel3">EXPERT</string>
+    <string name="flag">Flag</string>
+    <string name="nothing">"      "</string>
+    <string name="white"></string>
+    <string name="play">Play</string>
+    <string name="win">You Win!!!</string>
+    <string name="menu">Menu</string>
+    <string name="lose">GAME OVER</string>
+    <string name="mine">Mine Sweeper</string>
+    <string name="exit">Exit</string>
+    <string name="personalize">Personalize</string>
+    <string name="opcions">Opcions</string>
+    <string name="options">Options</string>
+    <string name="boxesX">Boxes on X:</string>
+    <string name="boxesY">Boxes on Y:</string>
+    <string name="max50">Max. 50</string>
+    <string name="again">Again?</string>
+    <string name="max25">Max. 25</string>
+    <string name="heaven">Heaven</string>
+    <string name="fieldsH">Horizontal fields</string>
+
+</resources>

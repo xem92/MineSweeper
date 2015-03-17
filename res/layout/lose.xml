@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fons"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/loser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lose"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="100dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/mainMenu"
+            android:layout_width="85dp"
+            android:layout_height="80dp"
+            android:text="@string/menu"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/again"
+            android:layout_width="85dp"
+            android:layout_height="80dp"
+            android:text="@string/again"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/boom"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bomba2" />
+
+</LinearLayout>

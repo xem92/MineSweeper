@@ -1,0 +1,32 @@
+package com.projprog.P10MineSeeper;
+
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class gameOver extends Activity implements OnClickListener{
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+          requestWindowFeature(Window.FEATURE_NO_TITLE);
+          getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+          setContentView(R.layout.lose);
+          //LinearLayout ll = (LinearLayout)findViewById(R.id.fons);
+       
+          //TextView tv = (TextView)findViewById(R.id.loser );
+        
+          Button b = (Button)findViewById(R.id.mainMenu);
+          b.setOnClickListener(this);
+	}
+
+	public void onClick(View v) {
+		finish();
+		
+	}
+}
